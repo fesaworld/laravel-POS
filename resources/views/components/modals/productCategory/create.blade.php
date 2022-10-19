@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
                 <label for="createDetail">Detail Kategori</label>
-                <input type="text" class="form-control" id="createDetail" name="name">
+                <input type="text" class="form-control" id="createDetail" name="detail">
             </div>
         </div>
         <div class="modal-footer">
