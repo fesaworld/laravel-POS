@@ -1,8 +1,6 @@
 @php
     $segment1 = request()->segment(1);
     $segment2 = request()->segment(2);
-    $segment3 = request()->segment(3);
-    $segment4 = request()->segment(4);
 @endphp
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -70,6 +68,14 @@
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Kelola User
+                </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href={{ url('/supplier') }} class="nav-link {{ $segment1 == 'supplier' ? 'active' : null }}">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Kelola Supplier
                 </p>
                 </a>
             </li>

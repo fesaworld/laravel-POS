@@ -9,4 +9,5 @@ Route::group([
 ], function() {
     require_once('includes/productCategories.php');
     require_once('includes/user.php');
+    require_once('includes/supplier.php');
 });
