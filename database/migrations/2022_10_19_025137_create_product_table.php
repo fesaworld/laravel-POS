@@ -11,11 +11,25 @@ class CreateProductTable extends Migration
      *
      * @return void
      */
+
     public function up()
     {
-        Schema::create('product', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->unsignedBigInteger('product_category_id');
+            $table->string('name');
+            $table->text('detail');
+            $table->decimal('price',14,5);
+            $table->integer('stok');
+            $table->text('image');
+
+
+            $table->foreign('product_category_id')
+                ->references('id')
+                ->on('product_categories')
+                ->onUpdate(DB::raw('NO ACTION'))
+                ->onDelete(DB::raw('NO ACTION'));
         });
     }
 
