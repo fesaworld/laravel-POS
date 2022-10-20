@@ -68,7 +68,7 @@ class UserController extends Controller
                 'msg'       => 'Mohon masukan nama user',
                 'status'    => false
             ];
-        }else if($request->email == NULL || $data != 0 ) {
+        }else if($request->email == NULL || $data > 0 ) {
             if($request->email == NULL){
                 $json = [
                     'msg'       => 'Mohon masukan email user',
@@ -131,27 +131,17 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $old = DB::table('users')->where('id', $id)->first();
-        $new = DB::table('users')->where('email', $request->email)->first();
-
-        if($new != NULL)
-        {
-            if($old->email == $new->email)
-            {
-                $result = 0;
-            }else{
-                $result = 1;
-            }
-        }else{
-            $result = 1;
-        }
+        $result = DB::table('users')
+        ->where('email', $request->email)
+        ->where('id', '<>', $id)
+        ->count();
 
         if($request->name == NULL) {
             $json = [
                 'msg'       => 'Mohon masukan nama user',
                 'status'    => false
             ];
-        }else if($request->email == NULL || $result != 0 ) {
+        }else if($request->email == NULL || $result > 0 ) {
             if($request->email == NULL){
                 $json = [
                     'msg'       => 'Mohon masukan email user',
