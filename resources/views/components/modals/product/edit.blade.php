@@ -22,12 +22,25 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="product_supplier_id">Supplier Produk</label>
+                <select name="product_supplier_id" id="product_supplier_id" class="form-control">
+                    <option value="" selected disabled>Pilih Supplier</option>
+                    @foreach ($productSuppliers as $supplier)
+                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="detail">Detail</label>
                 <input type="text" class="form-control" id="detail" name="detail">
             </div>
             <div class="form-group">
-                <label for="price">Harga</label>
-                <input type="text" class="form-control price" id="price" name="price">
+                <label for="price_buy">Harga Beli</label>
+                <input type="text" class="form-control price" id="price_buy" name="price_buy">
+            </div>
+            <div class="form-group">
+                <label for="price_sell">Harga Jual</label>
+                <input type="text" class="form-control price" id="price_sell" name="price_sell">
             </div>
             <div class="form-group">
                 <label for="stok">Stok</label>

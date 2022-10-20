@@ -73,8 +73,10 @@
             success: function (response) {
                 $('#name').val(response.name);
                 $('#product_category_id').val(response.product_category_id);
+                $('#product_supplier_id').val(response.product_supplier_id);
                 $('#detail').val(response.detail);
-                $('#price').val(response.price);
+                $('#price_buy').val(response.price_buy);
+                $('#price_sell').val(response.price_sell);
                 $('#stok').val(response.stok);
                 $(".dropify-clear").click();
                 $('#editModal').modal('show');
@@ -116,8 +118,10 @@
                 { data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'name', name:'product.name'},
                 { data: 'product_category', name:'product_categories.name'},
+                { data: 'product_supplier', name:'supplier.name'},
                 { data: 'detail', name:'product.detail'},
-                { data: 'price', name:'product.price'},
+                { data: 'price_buy', name:'product.price_buy'},
+                { data: 'price_sell', name:'product.price_sell'},
                 { data: 'stok', name:'product.stok'},
                 { data:'image', name:'product.image'},
                 { data: 'action', orderable: false, searchable: false},
