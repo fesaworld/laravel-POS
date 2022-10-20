@@ -8,4 +8,5 @@ Route::group([
     'middleware' => 'auth',
 ], function() {
     require_once('includes/productCategories.php');
+    require_once('includes/user.php');
 });

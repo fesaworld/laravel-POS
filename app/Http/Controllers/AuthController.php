@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class AuthController extends Controller
 {
@@ -26,6 +28,12 @@ class AuthController extends Controller
 
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput($request->all);
+        }
+
+        $user = DB::table('users')->where('email', $request->email)->first();
+
+        if($user && $user->deleted_at !== null) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'Username tidak ditemukan']);
         }
 
         $data = [
