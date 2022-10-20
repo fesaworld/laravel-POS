@@ -8,11 +8,11 @@
 
     const deleteData = (id) => {
         Swal.fire({
-            title: 'Apa anda yakin untuk menghapus barang haram ini?',
+            title: 'Apa anda yakin untuk menghapus?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Ya, aing tobat',
-            cancelButtonText: 'Teu, gas maksiat'
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
         }).then((result) => {
             Swal.close();
 

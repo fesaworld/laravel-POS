@@ -177,6 +177,7 @@
                     }
                 }
             })
+            $(".dropify-clear").click();
         });
 
         $('#editSubmit').click(function (e) {
