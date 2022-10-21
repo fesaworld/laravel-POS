@@ -47,46 +47,81 @@
                 </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href={{ url('/product') }} class="nav-link {{ $segment1 == 'product' ? 'active' : null }}">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Daftar Produk
-                </p>
+            <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+                  <i class="nav-icon fas fa-copy"></i>
+                  <p>
+                    Kelola Produk
+                    <i class="fas fa-angle-left right"></i>
+                    <span class="badge badge-info right">3</span>
+                  </p>
                 </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href={{ url('/product') }} class="nav-link {{ $segment1 == 'product' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-dolly-flatbed"></i>
+                        <p>Daftar Produk</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={{ url('/category') }} class="nav-link {{ $segment1 == 'category' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <p>
+                            Kategori Produk
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={{ url('/stockLog') }} class="nav-link {{ $segment1 == 'stockLog' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-poll"></i>
+                        <p>
+                            Riwayat Stok
+                        </p>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a href={{ url('/category') }} class="nav-link {{ $segment1 == 'category' ? 'active' : null }}">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Kategori Produk
-                </p>
+
+            <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+                  <i class="nav-icon fas fa-copy"></i>
+                  <p>
+                    Stakeholder
+                    <i class="fas fa-angle-left right"></i>
+                    <span class="badge badge-info right">3</span>
+                  </p>
                 </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href={{ url('/user') }} class="nav-link {{ $segment1 == 'user' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Kelola User
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={{ url('/supplier') }} class="nav-link {{ $segment1 == 'supplier' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>
+                            Kelola Supplier
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={{ url('/member') }} class="nav-link {{ $segment1 == 'member' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-address-card"></i>
+                        <p>
+                            Member
+                        </p>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a href={{ url('/user') }} class="nav-link {{ $segment1 == 'user' ? 'active' : null }}">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Kelola User
-                </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href={{ url('/supplier') }} class="nav-link {{ $segment1 == 'supplier' ? 'active' : null }}">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Kelola Supplier
-                </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href={{ url('/stockLog') }} class="nav-link {{ $segment1 == 'stockLog' ? 'active' : null }}">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                    Riwayat Stok
-                </p>
-                </a>
-            </li>
+
+
+
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
