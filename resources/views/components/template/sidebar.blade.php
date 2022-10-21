@@ -87,6 +87,14 @@
                 </p>
                 </a>
             </li>
+                        <li class="nav-item">
+                <a href={{ url('/member') }} class="nav-link {{ $segment1 == 'member' ? 'active' : null }}">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Member
+                </p>
+                </a>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
