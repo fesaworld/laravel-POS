@@ -24,7 +24,7 @@ class CreateProductTable extends Migration
             $table->decimal('price_buy',14,5);
             $table->decimal('price_sell',14,5);
             $table->integer('stok');
-            $table->text('image');
+            $table->text('image')->nullable();
 
 
             $table->foreign('product_category_id')
