@@ -14,9 +14,11 @@ class ProductController extends Controller
     public function index()
     {
         $productCategories = DB::table('product_categories')->get();
+        $productSuppliers = DB::table('suppliers')->get();
 
         $data = [
             'productCategories' => $productCategories,
+            'productSuppliers' => $productSuppliers,
             'script'            => 'components.scripts.product'
         ];
 
@@ -27,15 +29,17 @@ class ProductController extends Controller
         if(is_numeric($id)) {
             $data = DB::table('products')->where('id', $id)->first();
 
-            $data->price = number_format($data->price);
+            $data->price_buy = number_format($data->price_buy);
+            $data->price_sell = number_format($data->price_sell);
 
             return Response::json($data);
         }
 
         $data = DB::table('products')
             ->join('product_categories', 'product_categories.id', '=', 'products.product_category_id')
+            ->join('suppliers', 'suppliers.id', '=', 'products.product_supplier_id')
             ->select([
-                'products.*', 'product_categories.name as product_category'
+                'products.*', 'product_categories.name as product_category', 'suppliers.name as product_supplier'
             ])
             ->orderBy('products.id', 'desc');
 
@@ -48,12 +52,19 @@ class ProductController extends Controller
             })
 
             ->editColumn(
-                'price',
+                'price_buy',
                 function($row) {
-                    return number_format($row->price);
+                    return number_format($row->price_buy);
                 }
             )
-            
+
+            ->editColumn(
+                'price_sell',
+                function($row) {
+                    return number_format($row->price_sell);
+                }
+            )
+
             ->addColumn(
                 'action',
                 function($row) {
@@ -114,9 +125,14 @@ class ProductController extends Controller
                 'msg'       => 'Mohon masukan detail produk',
                 'status'    => false
             ];
-        } elseif($request->price == NULL) {
+        } elseif($request->priceBuy == NULL) {
             $json = [
-                'msg'       => 'Mohon masukan harga produk',
+                'msg'       => 'Mohon masukan harga beli produk',
+                'status'    => false
+            ];
+        } elseif($request->priceSell == NULL) {
+            $json = [
+                'msg'       => 'Mohon masukan harga jual produk',
                 'status'    => false
             ];
         } elseif($request->stok == NULL) {
@@ -124,11 +140,6 @@ class ProductController extends Controller
                 'msg'       => 'Mohon masukan jumlah produk',
                 'status'    => false
             ];
-        // } elseif($request->image == NULL) {
-        //     $json = [
-        //         'msg'       => 'Mohon masukan gambar produk',
-        //         'status'    => false
-        //     ];
         } else {
             try{
             if($request->file('image'))
@@ -144,8 +155,10 @@ class ProductController extends Controller
                         'created_at' => date('Y-m-d H:i:s'),
                         'name' => $request->name,
                         'product_category_id' => $request->product_category_id,
+                        'product_supplier_id' => $request->product_supplier_id,
                         'detail' => $request->detail,
-                        'price' => str_replace(',','',$request->price),
+                        'price_buy' => str_replace(',','',$request->priceBuy),
+                        'price_sell' => str_replace(',','',$request->priceSell),
                         'stok' => $request->stok,
                         'image' => $featuredImageName,
 
@@ -157,8 +170,10 @@ class ProductController extends Controller
                         'created_at' => date('Y-m-d H:i:s'),
                         'name' => $request->name,
                         'product_category_id' => $request->product_category_id,
+                        'product_supplier_id' => $request->product_supplier_id,
                         'detail' => $request->detail,
-                        'price' => str_replace(',','',$request->price),
+                        'priceBuy' => str_replace(',','',$request->priceBuy),
+                        'priceSell' => str_replace(',','',$request->priceSell),
                         'stok' => $request->stok,
                     ]);
                 });
@@ -186,23 +201,32 @@ class ProductController extends Controller
                 'msg'       => 'Mohon masukan nama produk',
                 'status'    => false
             ];
+        } elseif(!$request->has('product_category_id')) {
+            $json = [
+                'msg'       => 'Mohon pilih kategori produk',
+                'status'    => false
+            ];
         } elseif($request->detail == NULL) {
             $json = [
                 'msg'       => 'Mohon masukan detail produk',
                 'status'    => false
             ];
-        } elseif($request->price == NULL) {
+        } elseif($request->price_buy == NULL) {
             $json = [
-                'msg'       => 'Mohon masukan harga produk',
+                'msg'       => 'Mohon masukan harga beli produk',
+                'status'    => false
+            ];
+        } elseif($request->price_sell == NULL) {
+            $json = [
+                'msg'       => 'Mohon masukan harga jual produk',
                 'status'    => false
             ];
         } elseif($request->stok == NULL) {
             $json = [
-                'msg'       => 'Mohon masukan stok produk',
+                'msg'       => 'Mohon masukan jumlah produk',
                 'status'    => false
             ];
-        }
-        else {
+        } else {
             try{
                 if($request->file('image'))
                 {
@@ -228,9 +252,11 @@ class ProductController extends Controller
                             'updated_at' => date('Y-m-d H:i:s'),
                             'name' => $request->name,
                             'product_category_id' => $request->product_category_id,
+                            'product_supplier_id' => $request->product_supplier_id,
                             'detail' => $request->detail,
-                            'price' => str_replace(',','',$request->price),
-                            'stok'=> $request->stok,
+                            'price_buy' => str_replace(',','',$request->price_buy),
+                            'price_sell' => str_replace(',','',$request->price_sell),
+                            'stok' => $request->stok,
                             'image'=> $featuredImageName,
                         ]);
                     });
@@ -241,9 +267,11 @@ class ProductController extends Controller
                             'updated_at' => date('Y-m-d H:i:s'),
                             'name' => $request->name,
                             'product_category_id' => $request->product_category_id,
+                            'product_supplier_id' => $request->product_supplier_id,
                             'detail' => $request->detail,
-                            'price' => str_replace(',','',$request->price),
-                            'stok'=> $request->stok,
+                            'price_buy' => str_replace(',','',$request->price_buy),
+                            'price_sell' => str_replace(',','',$request->price_sell),
+                            'stok' => $request->stok,
                         ]);
                     });
                 }

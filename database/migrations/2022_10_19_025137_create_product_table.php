@@ -18,9 +18,11 @@ class CreateProductTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('product_category_id');
+            $table->unsignedBigInteger('product_supplier_id');
             $table->string('name');
             $table->text('detail');
-            $table->decimal('price',14,5);
+            $table->decimal('price_buy',14,5);
+            $table->decimal('price_sell',14,5);
             $table->integer('stok');
             $table->text('image');
 
