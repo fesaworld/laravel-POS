@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => 'guest',
 ], function() {
-    Route::get('/', 'AuthController@view');
+    Route::get('/', 'AuthController@view')->name('default');
     Route::post('/', 'AuthController@login');
 });
 
