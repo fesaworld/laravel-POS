@@ -79,6 +79,14 @@
                 </p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href={{ url('/stockLog') }} class="nav-link {{ $segment1 == 'stockLog' ? 'active' : null }}">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Riwayat Stok
+                </p>
+                </a>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
