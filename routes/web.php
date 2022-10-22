@@ -13,4 +13,5 @@ Route::group([
     require_once('includes/product.php');
     require_once('includes/stockLog.php');
     require_once('includes/member.php');
+    require_once('includes/dashboard.php');
 });
