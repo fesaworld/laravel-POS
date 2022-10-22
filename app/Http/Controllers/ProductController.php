@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
@@ -40,7 +41,7 @@ class ProductController extends Controller
             ->join('suppliers', 'suppliers.id', '=', 'products.product_supplier_id')
             ->select([
                 'products.*', 'product_categories.name as product_category', 'suppliers.name as product_supplier'
-            ])
+            ])->where('deleted_at', NULL)
             ->orderBy('products.id', 'desc');
 
         return DataTables::of($data)
@@ -75,6 +76,7 @@ class ProductController extends Controller
                     return view('components.buttons.product', $data);
                 }
             )
+
             ->addIndexColumn()
             ->make(true);
     }
@@ -89,8 +91,11 @@ class ProductController extends Controller
                 unlink($pleaseRemove);
             }
 
-            DB::transaction(function() use($id){
-                DB::table('products')->where('id', $id)->delete();
+            DB::transaction(function() use($id) {
+                DB::table('products')->where('id', $id)->update([
+                    'deleted_at' => date('Y-m-d H:i:s'),
+                    'status'=> 'Non-Aktif',
+                ]);
             });
 
             $json = [
@@ -102,6 +107,8 @@ class ProductController extends Controller
                 'msg' => 'error',
                 'status' => false,
                 'e' => $e,
+                'line'      => $e->getLine(),
+                'message'   => $e->getMessage(),
             ];
         };
 
@@ -140,6 +147,11 @@ class ProductController extends Controller
                 'msg'       => 'Mohon masukan jumlah produk',
                 'status'    => false
             ];
+        } elseif($request->stok == 0) {
+            $json = [
+                'msg'       => 'Jumlah produk minimal 1',
+                'status'    => false
+            ];
         } else {
             try{
             if($request->file('image'))
@@ -149,35 +161,35 @@ class ProductController extends Controller
                 $featuredImageName  = date('YmdHis').'.'.$extension;
                 $destination = base_path('public/assets/image/');
                 $post_image->move($destination, $featuredImageName);
+            } else { $featuredImageName = "";}
 
-                DB::transaction(function() use($request, $featuredImageName) {
-                    DB::table('products')->insert([
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'name' => $request->name,
-                        'product_category_id' => $request->product_category_id,
-                        'product_supplier_id' => $request->product_supplier_id,
-                        'detail' => $request->detail,
-                        'price_buy' => str_replace(',','',$request->priceBuy),
-                        'price_sell' => str_replace(',','',$request->priceSell),
-                        'stok' => $request->stok,
-                        'image' => $featuredImageName,
+            DB::transaction(function() use($request, $featuredImageName) {
+                $id_products = DB::table('products')->insertGetId([
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'name' => $request->name,
+                    'product_category_id' => $request->product_category_id,
+                    'product_supplier_id' => $request->product_supplier_id,
+                    'detail' => $request->detail,
+                    'price_buy' => str_replace(',','',$request->priceBuy),
+                    'price_sell' => str_replace(',','',$request->priceSell),
+                    'stok' => $request->stok,
+                    'status' => 'Aktif',
+                    'image' => $featuredImageName,
+                ]);
 
-                    ]);
-                });
-            } else {
-                DB::transaction(function() use($request) {
-                    DB::table('products')->insert([
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'name' => $request->name,
-                        'product_category_id' => $request->product_category_id,
-                        'product_supplier_id' => $request->product_supplier_id,
-                        'detail' => $request->detail,
-                        'priceBuy' => str_replace(',','',$request->priceBuy),
-                        'priceSell' => str_replace(',','',$request->priceSell),
-                        'stok' => $request->stok,
-                    ]);
-                });
-            }
+                DB::table('stock_logs')->insert([
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'product_id' => $id_products,
+                    'supplier_id' => $request->product_supplier_id,
+                    'user_id' => Auth::user()->id,
+                    'in' => $request->stok,
+                    'out' => null,
+                    'detail' => "Penambahan produk baru",
+                ]);
+
+            });
+
+
                 $json = [
                     'msg' => 'Produk berhasil ditambahkan',
                     'status' => true
@@ -196,6 +208,11 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $data = DB::table('products')->where('id', $id)->first();
+        $dataStok = $data->stok;
+        $dataImage = $data->image;
+        $dataStatus = $data->status;
+
         if($request->name == NULL) {
             $json = [
                 'msg'       => 'Mohon masukan nama produk',
@@ -221,12 +238,12 @@ class ProductController extends Controller
                 'msg'       => 'Mohon masukan harga jual produk',
                 'status'    => false
             ];
-        } elseif($request->stok == NULL) {
-            $json = [
-                'msg'       => 'Mohon masukan jumlah produk',
-                'status'    => false
-            ];
         } else {
+
+            if($dataStatus == 'Non-Aktif' && $request->stokNew > 0){
+                $dataStatus = 'Aktif';
+            }
+
             try{
                 if($request->file('image'))
                 {
@@ -246,35 +263,34 @@ class ProductController extends Controller
                     $featuredImageName  = date('YmdHis').'.'.$extension;
                     $destination = base_path('public/assets/image/');
                     $post_image->move($destination, $featuredImageName);
+                } else { $featuredImageName = $dataImage;}
 
-                    DB::transaction(function() use($request, $id, $featuredImageName) {
-                        DB::table('products')->where('id', $id)->update([
-                            'updated_at' => date('Y-m-d H:i:s'),
-                            'name' => $request->name,
-                            'product_category_id' => $request->product_category_id,
-                            'product_supplier_id' => $request->product_supplier_id,
-                            'detail' => $request->detail,
-                            'price_buy' => str_replace(',','',$request->price_buy),
-                            'price_sell' => str_replace(',','',$request->price_sell),
-                            'stok' => $request->stok,
-                            'image'=> $featuredImageName,
-                        ]);
-                    });
+                DB::transaction(function() use($request, $id, $featuredImageName, $dataStok, $dataStatus) {
+                    DB::table('products')->where('id', $id)->update([
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'name' => $request->name,
+                        'product_category_id' => $request->product_category_id,
+                        'product_supplier_id' => $request->product_supplier_id,
+                        'detail' => $request->detail,
+                        'price_buy' => str_replace(',','',$request->price_buy),
+                        'price_sell' => str_replace(',','',$request->price_sell),
+                        'stok' => ($dataStok + $request->stokNew),
+                        'status'=> $dataStatus,
+                        'image'=> $featuredImageName,
+                    ]);
 
-                } else {
-                    DB::transaction(function() use($request, $id) {
-                        DB::table('products')->where('id', $id)->update([
-                            'updated_at' => date('Y-m-d H:i:s'),
-                            'name' => $request->name,
-                            'product_category_id' => $request->product_category_id,
-                            'product_supplier_id' => $request->product_supplier_id,
-                            'detail' => $request->detail,
-                            'price_buy' => str_replace(',','',$request->price_buy),
-                            'price_sell' => str_replace(',','',$request->price_sell),
-                            'stok' => $request->stok,
+                    if($request->stokNew > 0){
+                        DB::table('stock_logs')->insert([
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'product_id' => $id,
+                            'supplier_id' => $request->product_supplier_id,
+                            'user_id' => Auth::user()->id,
+                            'in' => $request->stokNew,
+                            'out' => null,
+                            'detail' => "Penambahan stok produk lama",
                         ]);
-                    });
-                }
+                    }
+                });
 
                 $json = [
                     'msg' => 'Produk berhasil disunting',
@@ -284,7 +300,9 @@ class ProductController extends Controller
                 $json = [
                     'msg'       => 'error',
                     'status'    => false,
-                    'e'         => $e
+                    'e'         => $e,
+                    'line'      => $e->getLine(),
+                    'message'   => $e->getMessage(),
                 ];
             }
         }

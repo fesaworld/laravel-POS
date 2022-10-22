@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label for="createStok">Stok</label>
-                        <input type="text" class="form-control" id="createStok" name="stok">
+                        <input type="number" class="form-control" id="createStok" name="stok">
                     </div>
                     <div class="form-group">
                         <label for="createImage">Gambar Post</label>

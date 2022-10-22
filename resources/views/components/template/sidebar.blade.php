@@ -33,32 +33,48 @@
           </div>
         </div>
       </div>
-{{-- @can('see_Member')
+      
+      @if(Auth::user()->getRoleNames()[0] == 'Admin')
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href={{ url('/dashboard') }} class="nav-link {{ $segment1 == 'dashboard' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href={{ url('/member') }} class="nav-link {{ $segment1 == 'member' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-address-card"></i>
+                        <p>
+                            Member
+                        </p>
+                        </a>
+                    </li>
 
-@endcan --}}
-{{-- @if(Auth::user()->getRoleNames()[0] == 'Admin')
-@else
-@endif --}}
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
-
-
-
-            <li class="nav-item">
-                <a href={{ url('/dashboard') }} class="nav-link {{ $segment1 == 'dashboard' ? 'active' : null }}">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                    Dashboard
-                </p>
-                </a>
-            </li>
-            <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
-                  <i class="nav-icon fas fa-copy"></i>
+            </ul>
+        </nav>>
+      @else
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a href={{ url('/dashboard') }} class="nav-link {{ $segment1 == 'dashboard' ? 'active' : null }}">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Dashboard
+                    </p>
+                    </a>
+                </li>
+                <li class="nav-item {{ $segment1 == 'product' || $segment1 == 'category' || $segment1 == 'stockLog' ? 'menu-open' : null }}">
+                <a href="#" class="nav-link {{ $segment1 == 'product' || $segment1 == 'category' || $segment1 == 'stockLog' ? 'active' : null }}" >
+                  <i class="nav-icon fas fa-clipboard"></i>
                   <p>
                     Kelola Produk
                     <i class="fas fa-angle-left right"></i>
@@ -91,8 +107,8 @@
                 </ul>
             </li>
 
-            <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
+            <li class="nav-item {{ $segment1 == 'user' || $segment1 == 'supplier' || $segment1 == 'member' ? 'menu-open' : null }}">
+                <a href="#" class="nav-link {{ $segment1 == 'user' || $segment1 == 'supplier' || $segment1 == 'member' ? 'active' : null }}">
                   <i class="nav-icon fas fa-copy"></i>
                   <p>
                     Stakeholder
@@ -134,6 +150,7 @@
                     </li>
             </li>
         </ul>
+      @endif
       </nav>
       <!-- /.sidebar-menu -->
     </div>
