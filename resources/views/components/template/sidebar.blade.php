@@ -33,12 +33,21 @@
           </div>
         </div>
       </div>
+{{-- @can('see_Member')
+
+@endcan --}}
+{{-- @if(Auth::user()->getRoleNames()[0] == 'Admin')
+@else
+@endif --}}
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
+
+
+
             <li class="nav-item">
                 <a href={{ url('/dashboard') }} class="nav-link {{ $segment1 == 'dashboard' ? 'active' : null }}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -108,20 +117,22 @@
                         </p>
                         </a>
                     </li>
+                    @can('see_Member')
+                        <li class="nav-item">
+                            <a href={{ url('/member') }} class="nav-link {{ $segment1 == 'member' ? 'active' : null }}">
+                            <i class="nav-icon fas fa-address-card"></i>
+                            <p>Member</p>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
                     <li class="nav-item">
-                        <a href={{ url('/member') }} class="nav-link {{ $segment1 == 'member' ? 'active' : null }}">
-                        <i class="nav-icon fas fa-address-card"></i>
-                        <p>
-                            Member
-                        </p>
+                        <a href={{ url('/transaksi') }} class="nav-link {{ $segment1 == 'transaksi' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>Transaksi</p>
                         </a>
                     </li>
-                </ul>
             </li>
-
-
-
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
