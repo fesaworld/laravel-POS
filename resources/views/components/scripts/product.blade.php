@@ -30,13 +30,15 @@
                     type: "delete",
                     url: `/product/${id}`,
                     dataType: "json",
-                    success: function (response) {
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
                         Swal.close();
 
-                        if(response.status) {
+                        if(data.status) {
                             Swal.fire(
                                 'Success!',
-                                response.msg,
+                                data.msg,
                                 'success'
                             )
 
@@ -44,12 +46,12 @@
                         } else {
                             Swal.fire(
                                 'Error!',
-                                response.msg,
+                                data.msg,
                                 'warning'
                             )
                         }
                     }
-                });
+                })
             }
         });
     }
@@ -123,6 +125,7 @@
                 { data: 'price_buy', name:'product.price_buy'},
                 { data: 'price_sell', name:'product.price_sell'},
                 { data: 'stok', name:'product.stok'},
+                { data: 'status', name:'product.status'},
                 { data:'image', name:'product.image'},
                 { data: 'action', orderable: false, searchable: false},
             ]

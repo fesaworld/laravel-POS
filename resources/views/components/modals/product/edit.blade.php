@@ -43,8 +43,12 @@
                 <input type="text" class="form-control price" id="price_sell" name="price_sell">
             </div>
             <div class="form-group">
-                <label for="stok">Stok</label>
-                <input type="text" class="form-control" id="stok" name="stok">
+                <label for="stok">Stok Tersedia</label>
+                <input type="number" class="form-control" id="stok" name="stok" disabled>
+            </div>
+            <div class="form-group">
+                <label for="stokNew">Tambah Stok Baru</label>
+                <input type="number" class="form-control" id="stokNew" name="stokNew">
             </div>
             <div class="form-group">
                 <label for="image">Gambar Post</label>
