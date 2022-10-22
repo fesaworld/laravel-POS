@@ -26,7 +26,31 @@ class IndexSeeder extends Seeder
         ]);
 
         $permission = Permission::create([
-            'name' => 'see_Categories',
+            'name' => 'see_Transaksi',
+        ]);
+
+        $admin->givePermissionTo($permission);
+
+        $permission = Permission::create([
+            'name' => 'create_Transaksi',
+        ]);
+
+        $admin->givePermissionTo($permission);
+
+        $permission = Permission::create([
+            'name' => 'update_Transaksi',
+        ]);
+
+        $admin->givePermissionTo($permission);
+
+        $permission = Permission::create([
+            'name' => 'delete_Transaksi',
+        ]);
+
+        $admin->givePermissionTo($permission);
+
+        $permission = Permission::create([
+            'name' => 'see_Member',
         ]);
 
         $admin->givePermissionTo($permission);
