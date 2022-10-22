@@ -17,6 +17,7 @@ class CreateProductTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softdeletes();
             $table->unsignedBigInteger('product_category_id');
             $table->unsignedBigInteger('product_supplier_id');
             $table->string('name');
@@ -24,6 +25,7 @@ class CreateProductTable extends Migration
             $table->decimal('price_buy',14,5);
             $table->decimal('price_sell',14,5);
             $table->integer('stok');
+            $table->string('status');
             $table->text('image')->nullable();
 
 

@@ -47,6 +47,7 @@
                         <th>Harga Beli</th>
                         <th>Harga Jual</th>
                         <th>Stok</th>
+                        <th>Status</th>
                         <th>Image</th>
                         <th>Tindakan</th>
                     </thead>

@@ -41,7 +41,7 @@ class ProductController extends Controller
             ->join('suppliers', 'suppliers.id', '=', 'products.product_supplier_id')
             ->select([
                 'products.*', 'product_categories.name as product_category', 'suppliers.name as product_supplier'
-            ])
+            ])->where('deleted_at', NULL)
             ->orderBy('products.id', 'desc');
 
         return DataTables::of($data)
@@ -76,6 +76,7 @@ class ProductController extends Controller
                     return view('components.buttons.product', $data);
                 }
             )
+
             ->addIndexColumn()
             ->make(true);
     }
@@ -90,8 +91,11 @@ class ProductController extends Controller
                 unlink($pleaseRemove);
             }
 
-            DB::transaction(function() use($id){
-                DB::table('products')->where('id', $id)->delete();
+            DB::transaction(function() use($id) {
+                DB::table('products')->where('id', $id)->update([
+                    'deleted_at' => date('Y-m-d H:i:s'),
+                    'status'=> 'Non-Aktif',
+                ]);
             });
 
             $json = [
@@ -103,6 +107,8 @@ class ProductController extends Controller
                 'msg' => 'error',
                 'status' => false,
                 'e' => $e,
+                'line'      => $e->getLine(),
+                'message'   => $e->getMessage(),
             ];
         };
 
@@ -167,6 +173,7 @@ class ProductController extends Controller
                     'price_buy' => str_replace(',','',$request->priceBuy),
                     'price_sell' => str_replace(',','',$request->priceSell),
                     'stok' => $request->stok,
+                    'status' => 'Aktif',
                     'image' => $featuredImageName,
                 ]);
 
@@ -204,6 +211,7 @@ class ProductController extends Controller
         $data = DB::table('products')->where('id', $id)->first();
         $dataStok = $data->stok;
         $dataImage = $data->image;
+        $dataStatus = $data->status;
 
         if($request->name == NULL) {
             $json = [
@@ -231,6 +239,11 @@ class ProductController extends Controller
                 'status'    => false
             ];
         } else {
+
+            if($dataStatus == 'Non-Aktif' && $request->stokNew > 0){
+                $dataStatus = 'Aktif';
+            }
+
             try{
                 if($request->file('image'))
                 {
@@ -252,7 +265,7 @@ class ProductController extends Controller
                     $post_image->move($destination, $featuredImageName);
                 } else { $featuredImageName = $dataImage;}
 
-                DB::transaction(function() use($request, $id, $featuredImageName, $dataStok) {
+                DB::transaction(function() use($request, $id, $featuredImageName, $dataStok, $dataStatus) {
                     DB::table('products')->where('id', $id)->update([
                         'updated_at' => date('Y-m-d H:i:s'),
                         'name' => $request->name,
@@ -262,6 +275,7 @@ class ProductController extends Controller
                         'price_buy' => str_replace(',','',$request->price_buy),
                         'price_sell' => str_replace(',','',$request->price_sell),
                         'stok' => ($dataStok + $request->stokNew),
+                        'status'=> $dataStatus,
                         'image'=> $featuredImageName,
                     ]);
 
