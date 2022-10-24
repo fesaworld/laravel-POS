@@ -83,7 +83,7 @@ class MemberController extends Controller
                 });
 
                 $json = [
-                    'msg' => 'Mmeber berhasil ditambahkan',
+                    'msg' => 'Member berhasil ditambahkan',
                     'status' => true
                 ];
             } catch(Exception $e) {

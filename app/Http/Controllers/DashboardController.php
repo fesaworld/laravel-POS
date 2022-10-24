@@ -24,11 +24,21 @@ class DashboardController extends Controller
         $total = DB::table('stock_logs')->sum('total');
         $total = number_format($total);
 
+        $produkTersedia = DB::table('products')
+            ->where('deleted_at', NULL)
+            ->where('status', 'Aktif')
+            ->count();
+
+        $produkTidakTersedia = DB::table('products')->get()
+            ->where('deleted_at', NULL)
+            ->where('status', 'Non-Aktif')
+            ->count();
+
 
 
         // dd($data);
 
 
-        return view('pages.dashboard', compact('user','kategori', 'produk', 'supplier', 'member', 'total'));
+        return view('pages.dashboard', compact('user','kategori', 'produk', 'supplier', 'member', 'total', 'produkTersedia', 'produkTidakTersedia'));
     }
 }

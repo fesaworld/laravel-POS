@@ -29,13 +29,13 @@
                     <div class="row">
                         <div class="col-lg-4 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-info">
+                            <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3>Rp. {{ $total }}</h3>
                                     <p>Total Belanja Masuk</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-bag"></i>
+                                    <i class="ion ion-arrow-down-a"></i>
                                 </div>
                                 <a href="{{ url('/product') }}" class="small-box-footer">More info
                                     <i class="fas fa-arrow-circle-right"></i></a>
@@ -50,7 +50,7 @@
                                     <p>Total Belanja Keluar</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-bag"></i>
+                                    <i class="ion ion-arrow-up-a"></i>
                                 </div>
                                 <a href="{{ url('/product') }}" class="small-box-footer">More info
                                     <i class="fas fa-arrow-circle-right"></i></a>
@@ -59,13 +59,27 @@
                         @endcan
                         <div class="col-lg-4 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-info">
+                            <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>{{ $produk }}</h3>
+                                    <h3>{{ $produkTersedia }}</h3>
                                     <p>Jumlah Produk Tersedia</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-bag"></i>
+                                    <i class="ion ion-cube"></i>
+                                </div>
+                                <a href="{{ url('/product') }}" class="small-box-footer">More info
+                                    <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3>{{ $produkTidakTersedia }}</h3>
+                                    <p>Jumlah Produk Tidak Tersedia</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-cube"></i>
                                 </div>
                                 <a href="{{ url('/product') }}" class="small-box-footer">More info
                                     <i class="fas fa-arrow-circle-right"></i></a>
@@ -114,7 +128,7 @@
                                     <p>Jumlah member</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
+                                    <i class="ion ion-person-stalker"></i>
                                 </div>
                                 <a href="{{ url('/member') }}" class="small-box-footer">More info
                                     <i class="fas fa-arrow-circle-right"></i></a>
@@ -123,7 +137,7 @@
                         @can('see_TotalKeluar')
                         <div class="col-lg-4 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-primary">
+                            <div class="small-box bg-secondary">
                                 <div class="inner">
                                     <h3>{{ $user }}</h3><p>Jumlah User</p>
                                 </div>
