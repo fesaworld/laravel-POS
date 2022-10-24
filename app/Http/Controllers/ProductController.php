@@ -184,11 +184,10 @@ class ProductController extends Controller
                     'user_id' => Auth::user()->id,
                     'in' => $request->stok,
                     'out' => null,
+                    'total'=>(str_replace(',','',$request->priceBuy) * $request->stok),
                     'detail' => "Penambahan produk baru",
                 ]);
-
             });
-
 
                 $json = [
                     'msg' => 'Produk berhasil ditambahkan',
@@ -287,6 +286,7 @@ class ProductController extends Controller
                             'user_id' => Auth::user()->id,
                             'in' => $request->stokNew,
                             'out' => null,
+                            'total' => (str_replace(',','',$request->price_buy) * $request->stokNew),
                             'detail' => "Penambahan stok produk lama",
                         ]);
                     }
@@ -309,4 +309,5 @@ class ProductController extends Controller
 
         return Response::json($json);
     }
+
 }

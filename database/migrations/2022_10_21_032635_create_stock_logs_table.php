@@ -21,7 +21,9 @@ class CreateStockLogsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->integer('in')->nullable();
             $table->integer('out')->nullable();
+            $table->decimal('total');
             $table->text('detail')->nullable();
+
 
             $table->foreign('product_id')
                 ->references('id')

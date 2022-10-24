@@ -24,6 +24,7 @@
                 { data: 'user_name', name:'users.name'},
                 { data: 'in', name:'stock_log.in'},
                 { data: 'out', name:'stock_log.out'},
+                { data: 'total', name:'total'},
                 { data: 'created_at', name:'stock_log.created_at'},
                 { data: 'detail', name:'stock_log.detail'},
             ]

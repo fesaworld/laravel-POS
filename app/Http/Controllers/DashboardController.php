@@ -21,10 +21,14 @@ class DashboardController extends Controller
         $supplier = DB::table('suppliers')->count();
         $member = DB::table('members')->count();
 
+        $total = DB::table('stock_logs')->sum('total');
+        $total = number_format($total);
+
+
 
         // dd($data);
 
 
-        return view('pages.dashboard', compact('user','kategori', 'produk', 'supplier', 'member'));
+        return view('pages.dashboard', compact('user','kategori', 'produk', 'supplier', 'member', 'total'));
     }
 }
