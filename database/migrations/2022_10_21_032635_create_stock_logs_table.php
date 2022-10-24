@@ -19,6 +19,7 @@ class CreateStockLogsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('member_id')->nullable();
             $table->integer('in')->nullable();
             $table->integer('out')->nullable();
             $table->text('detail')->nullable();
@@ -36,6 +37,12 @@ class CreateStockLogsTable extends Migration
                 ->onDelete(DB::raw('NO ACTION'));
 
             $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate(DB::raw('NO ACTION'))
+                ->onDelete(DB::raw('NO ACTION'));
+
+            $table->foreign('member_id')
                 ->references('id')
                 ->on('users')
                 ->onUpdate(DB::raw('NO ACTION'))

@@ -38,7 +38,6 @@
                     <thead>
                         <th>#</th>
                         <th>Nama Produk</th>
-                        <th>Nama Supplier</th>
                         <th>Nama Admin</th>
                         <th>Stok Masuk</th>
                         <th>Stok Keluar</th>
