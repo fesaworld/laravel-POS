@@ -84,7 +84,7 @@ class SupplierController extends Controller
                 });
 
                 $json = [
-                    'msg' => 'Kategori berhasil ditambahkan',
+                    'msg' => 'Supplier berhasil ditambahkan',
                     'status' => true
                 ];
             } catch(Exception $e) {
@@ -140,7 +140,7 @@ class SupplierController extends Controller
                 });
 
                 $json = [
-                    'msg' => 'Produk berhasil disunting',
+                    'msg' => 'Supplier berhasil disunting',
                     'status' => true
                 ];
             } catch(Exception $e) {
@@ -163,7 +163,7 @@ class SupplierController extends Controller
             });
 
             $json = [
-                'msg' => 'Kategori berhasil dihapus',
+                'msg' => 'Supplier berhasil dihapus',
                 'status' => true
             ];
         } catch(Exception $e){

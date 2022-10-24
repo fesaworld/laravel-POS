@@ -56,6 +56,45 @@
         });
     }
 
+    const editStatus = (id) => {
+        Swal.fire({
+            title: 'Mohon tunggu',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            willOpen: () => {
+                Swal.showLoading()
+            }
+        });
+
+        $.ajax({
+            type: "post",
+            url: `/productStatus/${id}`,
+            dataType: "json",
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                Swal.close();
+
+                if(data.status) {
+                    Swal.fire(
+                        'Success!',
+                        data.msg,
+                        'success'
+                    )
+
+                    $('#table').DataTable().ajax.reload();
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        data.msg,
+                        'warning'
+                    )
+                }
+            }
+        })
+    }
+
     const edit = (id) => {
         Swal.fire({
             title: 'Mohon tunggu',

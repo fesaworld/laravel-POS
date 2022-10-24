@@ -206,6 +206,44 @@ class ProductController extends Controller
         return Response::json($json);
     }
 
+    public function updateStatus($id)
+    {
+        $data = DB::table('products')->where('id', $id)->first();
+        $dataStatus = $data->status;
+
+
+            if($dataStatus == 'Aktif'){
+                $dataStatus = 'Non-Aktif';
+            } else {
+                $dataStatus = 'Aktif';
+            }
+
+            try{
+
+                DB::transaction(function() use($id, $dataStatus) {
+                    DB::table('products')->where('id', $id)->update([
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'status'=> $dataStatus,
+                    ]);
+                });
+
+                $json = [
+                    'msg' => 'Produk berhasil disunting',
+                    'status' => true
+                ];
+            } catch(Exception $e) {
+                $json = [
+                    'msg'       => 'error',
+                    'status'    => false,
+                    'e'         => $e,
+                    'line'      => $e->getLine(),
+                    'message'   => $e->getMessage(),
+                ];
+            }
+
+        return Response::json($json);
+    }
+
     public function update(Request $request, $id)
     {
         $data = DB::table('products')->where('id', $id)->first();

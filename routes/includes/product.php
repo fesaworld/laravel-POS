@@ -9,5 +9,6 @@ Route::group([
     Route::get('/product/{id}', 'ProductController@show');
     Route::post('/product', 'ProductController@store');
     Route::post('/product/{id}', 'ProductController@update');
+    Route::post('/productStatus/{id}', 'ProductController@updateStatus');
     Route::delete('/product/{id}', 'ProductController@destroy');
 });
