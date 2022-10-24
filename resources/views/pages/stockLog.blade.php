@@ -41,6 +41,7 @@
                         <th>Nama Admin</th>
                         <th>Stok Masuk</th>
                         <th>Stok Keluar</th>
+                        <th>Total</th>
                         <th>Tanggal Transaksi</th>
                         <th>Detail</th>
                     </thead>

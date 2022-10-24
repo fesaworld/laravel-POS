@@ -27,11 +27,11 @@
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6 col-6">
+                        <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>{{ $produk }}</h3>
+                                    <h3>Rp. {{ $total }}</h3>
                                     <p>Total Belanja Masuk</p>
                                 </div>
                                 <div class="icon">
@@ -41,7 +41,8 @@
                                     <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-6">
+                        @can('see_TotalKeluar')
+                        <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -55,6 +56,7 @@
                                     <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
+                        @endcan
                         <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-info">
@@ -70,6 +72,7 @@
                             </div>
                         </div>
                         <!-- ./col -->
+                        @can('see_TotalKeluar')
                         <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-success">
@@ -101,6 +104,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endcan
                         <!-- ./col -->
                         <div class="col-lg-4 col-6">
                             <!-- small box -->
@@ -116,6 +120,7 @@
                                     <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
+                        @can('see_TotalKeluar')
                         <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-primary">
@@ -130,6 +135,7 @@
                                 </a>
                             </div>
                         </div>
+                        @endcan
                         <!-- ./col -->
                     </div>
                 </div>

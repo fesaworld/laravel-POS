@@ -27,6 +27,14 @@ class StockLogController extends Controller
 
     public function show($id)
     {
+        if(is_numeric($id)) {
+            $data = DB::table('stock_logs')->where('id', $id)->first();
+
+            $data->total = number_format($data->total);
+
+            return Response::json($data);
+        }
+
         $data = DB::table('stock_logs')
             ->join('products', 'products.id', '=', 'stock_logs.product_id')
             //->join('suppliers', 'suppliers.id', '=', 'stock_logs.supplier_id')
@@ -38,6 +46,14 @@ class StockLogController extends Controller
             ->orderBy('stock_logs.id', 'desc');
 
         return DataTables::of($data)
+
+            ->editColumn(
+                'total',
+                function($row) {
+                    return number_format($row->total);
+                }
+            )
+
             ->addIndexColumn()
             ->make(true);
     }

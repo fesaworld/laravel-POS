@@ -55,6 +55,12 @@ class IndexSeeder extends Seeder
 
         $admin->givePermissionTo($permission);
 
+        $permission = Permission::create([
+            'name' => 'see_TotalKeluar',
+        ]);
+
+        $admin->givePermissionTo($permission);
+
         $data   = [
             'name'      => 'Super Admin',
             'email'     => 'super@mail.com',
@@ -74,5 +80,7 @@ class IndexSeeder extends Seeder
         $user = User::create($data);
 
         $user->syncRoles('Admin');
+
+
     }
 }
