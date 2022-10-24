@@ -15,5 +15,6 @@ Route::group([
     require_once('includes/member.php');
     require_once('includes/dashboard.php');
     require_once('includes/transaksi.php');
+    require_once('includes/payment.php');
 
 });

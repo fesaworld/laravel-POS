@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-      
+
       @if(Auth::user()->getRoleNames()[0] == 'Admin')
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -148,6 +148,18 @@
                         <p>Transaksi</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href={{ url('/payment') }} class="nav-link {{ $segment1 == 'payment' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>Payment Status</p>
+                        </a>
+                    </li>
+                    {{-- <li class="nav-item">
+                        <a href={{ url('/paymentdetail') }} class="nav-link {{ $segment1 == 'paymentdetail' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>Detail Payment</p>
+                        </a>
+                    </li> --}}
             </li>
         </ul>
       @endif
