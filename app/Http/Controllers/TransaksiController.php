@@ -75,11 +75,11 @@ class TransaksiController extends Controller
 
                             $data = DB::table('products')->where('id', $cart->product_id)->first();
 
-                            $total = $data->stok - $cart->quantity;
+                            $totalStok = $data->stok - $cart->quantity;
 
                             DB::table('products')->where('id', $cart->product_id)->update([
                                 'updated_at' => date('Y-m-d H:i:s'),
-                                'stok' => $total,
+                                'stok' => $totalStok,
                             ]);
 
                             DB::table('stock_logs')->insert([
@@ -90,6 +90,7 @@ class TransaksiController extends Controller
                                 'member_id' => $request->memberId,
                                 'in' => null,
                                 'out' => $cart->quantity,
+                                'total' => $data->price_sell * $cart->quantity,
                                 'detail' => "Produk telah terbeli",
                             ]);
                         }
@@ -100,7 +101,7 @@ class TransaksiController extends Controller
                         ]);
                     });
 
-                    $total = 0;
+                    $totalPrice = 0;
 
                     $dataCart = DB::table('carts')
                     ->join('products', 'products.id', '=', 'carts.product_id')
@@ -111,13 +112,13 @@ class TransaksiController extends Controller
 
                     foreach($dataCart as $row)
                     {
-                        $total += $row->product_harga * $row->quantity;
+                        $totalPrice += $row->product_harga * $row->quantity;
                     }
 
 
                     $json = [
                         'msg' => 'Produk berhasil ditambahkan kedalam keranjang',
-                        'total' => $total,
+                        'total' => $totalPrice,
                         'status' => true
                     ];
                 } catch(Exception $e) {
