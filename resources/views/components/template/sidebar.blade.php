@@ -48,6 +48,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href={{ url('/transaksi') }} class="nav-link {{ $segment1 == 'transaksi' ? 'active' : null }}">
+                        <i class="nav-icon fas fa-truck"></i>
+                            <p>
+                                Transaksi
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href={{ url('/member') }} class="nav-link {{ $segment1 == 'member' ? 'active' : null }}">
                         <i class="nav-icon fas fa-address-card"></i>
                         <p>
@@ -70,6 +78,14 @@
                     <p>
                         Dashboard
                     </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href={{ url('/transaksi') }} class="nav-link {{ $segment1 == 'transaksi' ? 'active' : null }}">
+                    <i class="nav-icon fas fa-truck"></i>
+                        <p>
+                            Transaksi
+                        </p>
                     </a>
                 </li>
                 <li class="nav-item {{ $segment1 == 'product' || $segment1 == 'category' || $segment1 == 'stockLog' ? 'menu-open' : null }}">
@@ -133,33 +149,27 @@
                         </p>
                         </a>
                     </li>
-                    @can('see_Member')
                         <li class="nav-item">
                             <a href={{ url('/member') }} class="nav-link {{ $segment1 == 'member' ? 'active' : null }}">
                             <i class="nav-icon fas fa-address-card"></i>
-                            <p>Member</p>
+                                <p>
+                                    Member
+                                </p>
                             </a>
                         </li>
-                    @endcan
                 </ul>
-                    <li class="nav-item">
-                        <a href={{ url('/transaksi') }} class="nav-link {{ $segment1 == 'transaksi' ? 'active' : null }}">
-                        <i class="nav-icon fas fa-truck"></i>
-                        <p>Transaksi</p>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a href={{ url('/payment') }} class="nav-link {{ $segment1 == 'payment' ? 'active' : null }}">
                         <i class="nav-icon fas fa-truck"></i>
                         <p>Payment Status</p>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a href={{ url('/paymentdetail') }} class="nav-link {{ $segment1 == 'paymentdetail' ? 'active' : null }}">
                         <i class="nav-icon fas fa-truck"></i>
                         <p>Detail Payment</p>
                         </a>
-                    </li> --}}
+                    </li>
             </li>
         </ul>
       @endif

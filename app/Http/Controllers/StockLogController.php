@@ -37,10 +37,11 @@ class StockLogController extends Controller
 
         $data = DB::table('stock_logs')
             ->join('products', 'products.id', '=', 'stock_logs.product_id')
-            ->join('suppliers', 'suppliers.id', '=', 'stock_logs.supplier_id')
+            //->join('suppliers', 'suppliers.id', '=', 'stock_logs.supplier_id')
             ->join('users', 'users.id', '=', 'stock_logs.user_id')
+            //->join('members', 'members.id', '=', 'stock_logs.member_id')
             ->select([
-                'stock_logs.*', 'products.name as product_name', 'suppliers.name as supplier_name', 'users.name as user_name'
+                'stock_logs.*', 'products.name as product_name', 'users.name as user_name'
             ])
             ->orderBy('stock_logs.id', 'desc');
 

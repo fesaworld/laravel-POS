@@ -182,6 +182,7 @@ class ProductController extends Controller
                     'product_id' => $id_products,
                     'supplier_id' => $request->product_supplier_id,
                     'user_id' => Auth::user()->id,
+                    'member_id' => $request->memberId,
                     'in' => $request->stok,
                     'out' => null,
                     'total'=>(str_replace(',','',$request->priceBuy) * $request->stok),

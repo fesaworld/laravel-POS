@@ -20,7 +20,6 @@
             [
                 { data: 'DT_RowIndex', orderable: false, searchable: false},
                 { data: 'product_name', name:'products.name'},
-                { data: 'supplier_name', name:'suppliers.name'},
                 { data: 'user_name', name:'users.name'},
                 { data: 'in', name:'stock_log.in'},
                 { data: 'out', name:'stock_log.out'},
